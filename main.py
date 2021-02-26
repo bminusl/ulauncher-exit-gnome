@@ -43,21 +43,21 @@ class KeywordQueryEventListener(EventListener):
 def get_logout_item():
     return ExtensionResultItem(icon='images/gnome-logout.png',
                                name='Logout',
-                               description='Logout from session',
+                               description='Fermer la session',
                                on_enter=RunScriptAction("gnome-session-quit --logout --no-prompt", None))
 
 
 def get_reboot_item():
     return ExtensionResultItem(icon='images/gnome-reboot.png',
                                name='Reboot',
-                               description='Reboot computer',
+                               description='Redémarrer la machine',
                                on_enter=RunScriptAction("gnome-session-quit --reboot --force", None))
 
 
 def get_shutdown_item():
     return ExtensionResultItem(icon='images/gnome-shutdown.png',
                                name='Shutdown',
-                               description='Power off computer',
+                               description='Éteindre la machine',
                                on_enter=RunScriptAction("gnome-session-quit --power-off --force", None))
 
 
