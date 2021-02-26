@@ -15,9 +15,10 @@ class GnomeSessionExtension(Extension):
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         items = []
-        options = ['logout', 'restart', 'reboot', 'shutdown', 'halt', 'power-off']
+        options = ['lock', 'logout', 'restart', 'reboot', 'shutdown', 'halt', 'power-off']
         my_list = event.query.split(" ")
         if len(my_list) == 1:
+            items.append(get_lock_item())
             items.append(get_logout_item())
             items.append(get_reboot_item())
             items.append(get_shutdown_item())
@@ -28,7 +29,10 @@ class KeywordQueryEventListener(EventListener):
             included = []
             for option in options:
                 if my_query in option:
-                    if option in ['shutdown', 'halt', 'power-off'] and 'shutdown' not in included:
+                    if option in ['lock'] and 'lock' not in included:
+                        items.append(get_lock_item())
+                        included.append('lock')
+                    elif option in ['shutdown', 'halt', 'power-off'] and 'shutdown' not in included:
                         items.append(get_shutdown_item())
                         included.append('shutdown')
                     elif option in ['restart', 'reboot'] and 'reboot' not in included:
@@ -38,6 +42,13 @@ class KeywordQueryEventListener(EventListener):
                         items.append(get_logout_item())
 
             return RenderResultListAction(items)
+
+
+def get_lock_item():
+    return ExtensionResultItem(icon='images/lock.png',
+                               name='Lock',
+                               description='Vérouiller la session',
+                               on_enter=RunScriptAction("gnome-screensaver-command --lock", None))
 
 
 def get_logout_item():
